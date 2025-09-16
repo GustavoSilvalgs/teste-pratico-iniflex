@@ -10,15 +10,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class Main {
-    public static void main(String[] args) {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DecimalFormat decimalFormat;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+    static {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("pt", "BR"));
         symbols.setDecimalSeparator(',');
         symbols.setGroupingSeparator('.');
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        decimalFormat = new DecimalFormat("#,##0.00", symbols);
+    }
 
+    public static void main(String[] args) {
         List<Funcionario> funcionarios = new ArrayList<>();
 
         funcionarios.add(new Funcionario("Maria", LocalDate.parse("18/10/2000", formatter), new BigDecimal("2009.44"), "Operador"));
@@ -34,6 +36,18 @@ public class Main {
 
         funcionarios.remove(1);
 
+        imprimirFuncionarios(funcionarios);
+
+        funcionarios.forEach(f -> {
+            BigDecimal aumento = f.getSalario().multiply(new BigDecimal("0.10"));
+            f.setSalario(f.getSalario().add(aumento));
+        });
+
+        System.out.println("\nApós aumento de 10%:\n");
+        imprimirFuncionarios(funcionarios);
+    }
+
+    private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
         System.out.println("Nome | Data Nascimento | Salário | Função");
         for (Funcionario f : funcionarios) {
             System.out.println(
