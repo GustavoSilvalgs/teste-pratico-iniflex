@@ -57,6 +57,21 @@ public class Main {
 
         System.out.println("\nFuncionários agrupados por função:\n");
         imprimirFuncionariosAgrupados(funcionariosPorFuncao);
+
+//        3.6
+        System.out.println("\nFuncionários que fazem aniversário no mês 10 e 12:\n");
+        funcionarios.stream()
+                .filter(f -> {
+                    int mes = f.getDataNascimento().getMonthValue();
+                    return mes == 10 || mes == 12;
+                })
+                .forEach(f -> System.out.println(
+                        f.getNome() +
+                                " | " + f.getDataNascimento().format(formatter) +
+                                " | " + decimalFormat.format(f.getSalario()) +
+                                " | " + f.getFuncao()
+                ));
+
     }
 
     private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
