@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class Main {
         System.out.println("\nFuncionários agrupados por função:\n");
         imprimirFuncionariosAgrupados(funcionariosPorFuncao);
 
-//        3.6
+//        3.8
         System.out.println("\nFuncionários que fazem aniversário no mês 10 e 12:\n");
         funcionarios.stream()
                 .filter(f -> {
@@ -72,6 +73,16 @@ public class Main {
                                 " | " + f.getFuncao()
                 ));
 
+//        3.9
+        System.out.println("\nFuncionário com maior idade:\n");
+        Funcionario maisVelho = funcionarios.stream()
+                .min((f1, f2) -> f1.getDataNascimento().compareTo(f2.getDataNascimento()))
+                .orElse(null);
+
+        if (maisVelho != null) {
+            int idade = Period.between(maisVelho.getDataNascimento(), LocalDate.now()).getYears();
+            System.out.println("Nome: " + maisVelho.getNome() + " | Idade: " + idade);
+        }
     }
 
     private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
