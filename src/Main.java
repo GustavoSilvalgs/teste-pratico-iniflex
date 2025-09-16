@@ -6,10 +6,7 @@ import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -83,6 +80,10 @@ public class Main {
             int idade = Period.between(maisVelho.getDataNascimento(), LocalDate.now()).getYears();
             System.out.println("Nome: " + maisVelho.getNome() + " | Idade: " + idade);
         }
+
+//        3.10
+        funcionarios.sort(Comparator.comparing(Funcionario::getNome));
+        imprimirFuncionarios(funcionarios);
     }
 
     private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
