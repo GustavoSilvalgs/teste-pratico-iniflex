@@ -78,12 +78,19 @@ public class Main {
 
         if (maisVelho != null) {
             int idade = Period.between(maisVelho.getDataNascimento(), LocalDate.now()).getYears();
-            System.out.println("Nome: " + maisVelho.getNome() + " | Idade: " + idade);
+            System.out.println("Nome: " + maisVelho.getNome() + " | Idade: " + idade + "\n");
         }
 
 //        3.10
         funcionarios.sort(Comparator.comparing(Funcionario::getNome));
         imprimirFuncionarios(funcionarios);
+
+//        3.11
+        BigDecimal total = BigDecimal.ZERO;
+        for (Funcionario f : funcionarios) {
+            total = total.add(f.getSalario());
+        }
+        System.out.println("\nTotal dos salários: R$ " + decimalFormat.format(total));
     }
 
     private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
