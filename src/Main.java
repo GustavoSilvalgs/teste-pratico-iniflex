@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Main {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -34,10 +36,13 @@ public class Main {
         funcionarios.add(new Funcionario("Heloísa", LocalDate.parse("24/05/2003", formatter), new BigDecimal("1606.85"), "Eletricista"));
         funcionarios.add(new Funcionario("Helena", LocalDate.parse("02/09/1996", formatter), new BigDecimal("2799.93"), "Gerente"));
 
+//        3.2
         funcionarios.remove(1);
 
+//        3.3
         imprimirFuncionarios(funcionarios);
 
+//        3.4
         funcionarios.forEach(f -> {
             BigDecimal aumento = f.getSalario().multiply(new BigDecimal("0.10"));
             f.setSalario(f.getSalario().add(aumento));
@@ -45,6 +50,13 @@ public class Main {
 
         System.out.println("\nApós aumento de 10%:\n");
         imprimirFuncionarios(funcionarios);
+
+//        3.5
+        Map<String, List<Funcionario>> funcionariosPorFuncao =
+                funcionarios.stream().collect(Collectors.groupingBy(Funcionario::getFuncao));
+
+        System.out.println("\nFuncionários agrupados por função:\n");
+        imprimirFuncionariosAgrupados(funcionariosPorFuncao);
     }
 
     private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
@@ -57,5 +69,17 @@ public class Main {
                             " | " + f.getFuncao()
             );
         }
+    }
+
+    private static void imprimirFuncionariosAgrupados(Map<String, List<Funcionario>> map) {
+        map.forEach((funcao, lista) -> {
+            System.out.println("Função: " + funcao);
+            lista.forEach(f -> System.out.println(
+                     " " + f.getNome() +
+                            " | " + f.getDataNascimento().format(formatter) +
+                            " | " + decimalFormat.format(f.getSalario())
+            ));
+            System.out.println();
+        });
     }
 }
